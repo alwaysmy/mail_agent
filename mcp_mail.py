@@ -19,7 +19,12 @@ mcp = FastMCP("mail")
 
 @mcp.tool(
     name="list",
-    description="列出邮箱中的邮件（发件人/日期/主题）。n 取最近 n 封；unread=True 只列未读。folder 为文件夹名，默认 INBOX。",
+    description=(
+        "列出邮箱中的邮件（发件人/日期/主题）。n 取最近 n 封；unread=True 只列未读；folder 为文件夹名，默认 INBOX。"
+        "\n\n补充能力（刻意不做成 MCP 工具，需要时用 shell 调用，凭据读同一份 config.json）："
+        "\n- 邮件量大、要翻旧邮件按关键词找：python D:\\ChatWorkspace\\mail_agent\\mailtool.py search 关键词（只扫主题/发件人，--limit 控制扫描范围，中文可靠）"
+        "\n- 要读已发送/垃圾邮件等文件夹：python D:\\ChatWorkspace\\mail_agent\\mailtool.py folders 拿到该文件夹的 IMAP 原名后，传给本工具的 folder 参数"
+    ),
 )
 def mail_list(n: int = 10, unread: bool = False, folder: str = "INBOX") -> str:
     cfg = mt.load_cfg()

@@ -15,18 +15,14 @@ async def main():
         async with ClientSession(read, write) as session:
             await session.initialize()
             tools = await session.list_tools()
-            print("== 工具列表 ==")
+            print("== 工具列表（含 description）==")
             for t in tools.tools:
                 print(f"- {t.name}")
+                print(f"  {t.description}")
 
-            print("\n== list (最近 2 封) ==")
-            r = await session.call_tool("list", {"n": 2})
-            print(r.content[0].text[:400])
-
-            print("\n== read (第一封 UID) ==")
-            first = r.content[0].text.split("UID:")[1].split("\n")[0].strip()
-            r = await session.call_tool("read", {"uid": first, "max_chars": 300})
-            print(r.content[0].text[:400])
+            print("\n== list (最近 1 封) ==")
+            r = await session.call_tool("list", {"n": 1})
+            print(r.content[0].text[:300])
 
 
 if __name__ == "__main__":
